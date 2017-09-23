@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingTop="@dimen/global_margin">
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="@dimen/movie_poster_width"
+        android:layout_height="@dimen/movie_poster_height"
+        android:layout_marginLeft="@dimen/global_margin_3x" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/global_margin_3x"
+        android:layout_toRightOf="@+id/movie_poster"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_large"
+            tool:text="2015 Jan 18" />
+
+        <TextView
+            android:id="@+id/tv_vote_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_small"
+            android:textSize="@dimen/text_medium"
+            tool:text="9.5/10" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_plot_synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_poster"
+        android:layout_marginLeft="@dimen/global_margin_2x"
+        android:layout_marginRight="@dimen/global_margin_2x"
+        android:layout_marginTop="@dimen/global_margin_3x"
+        tool:text="Movie Plot Synopsis" />
+</RelativeLayout>
