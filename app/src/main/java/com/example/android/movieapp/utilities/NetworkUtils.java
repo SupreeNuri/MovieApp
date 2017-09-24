@@ -42,9 +42,9 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildUrlTrailerVideos(String id){
+    public static URL buildUrlTrailer(int id){
         Uri trailerUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(id)
+                .appendPath(Integer.toString(id))
                 .appendPath(PATH_VIDEOS)
                 .appendQueryParameter(API_KEY_PARAM,API_KEY)
                 .build();
