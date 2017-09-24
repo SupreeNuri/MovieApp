@@ -8,4 +8,5 @@
     <!--MovieDetailActivity-->
     <string name="movie_detail">MovieDetail</string>
     <string name="vote_average">%1$s/10</string>
+    <string name="trailers">Trailers:</string>
 </resources>

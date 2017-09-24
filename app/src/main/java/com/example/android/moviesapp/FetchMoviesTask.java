@@ -30,7 +30,6 @@ class FetchMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
 
         try {
             String jsonMoviesResponse = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
-
             return MovieJsonUtils.getMovieModelsFromJson(jsonMoviesResponse);
 
         } catch (Exception e) {

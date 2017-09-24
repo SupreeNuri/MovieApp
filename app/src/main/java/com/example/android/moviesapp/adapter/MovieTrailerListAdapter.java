@@ -1,4 +1,4 @@
-package com.example.android.moviesapp;
+package com.example.android.moviesapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +9,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.movieapp.model.Movie;
+import com.example.android.moviesapp.R;
 
 import java.util.List;
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieAdapterViewHolder> {
+public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerListAdapter.MovieAdapterViewHolder> {
 
     private final List<Movie> mMovies;
     final private ListItemClickListener mOnClickListener;
@@ -21,7 +22,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         void onListItemClick(int clickedItemIndex);
     }
 
-    public MovieListAdapter(List<Movie> movies,ListItemClickListener listener) {
+    public MovieTrailerListAdapter(List<Movie> movies, ListItemClickListener listener) {
         mMovies = movies;
         mOnClickListener = listener;
     }

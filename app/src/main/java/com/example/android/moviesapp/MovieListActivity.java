@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.android.movieapp.model.Movie;
 import com.example.android.movieapp.utilities.NetworkUtils;
+import com.example.android.moviesapp.adapter.MovieListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
