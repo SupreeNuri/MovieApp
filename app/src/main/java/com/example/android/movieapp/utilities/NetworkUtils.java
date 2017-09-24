@@ -13,7 +13,7 @@ import java.util.Scanner;
 import static android.content.ContentValues.TAG;
 
 public class NetworkUtils {
-    private static final String API_KEY = "Your API key here";
+    private static final String API_KEY = "Your API key";
     private static final String BASE_URL = "http://api.themoviedb.org/3";
 
     public static final String MODE_POPULAR = "movie/popular";
