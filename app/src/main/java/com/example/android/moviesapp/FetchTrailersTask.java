@@ -17,7 +17,7 @@ class FetchTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
     private final Listener fetchFinishedListener;
 
     interface Listener {
-        void onFetchFinished(List<Trailer> movies);
+        void onFetchFinished(List<Trailer> trailers);
     }
 
     public FetchTrailersTask(Listener fetchFinishedListener){
@@ -40,9 +40,9 @@ class FetchTrailersTask extends AsyncTask<Integer, Void, List<Trailer>> {
     }
 
     @Override
-    protected void onPostExecute(List<Trailer> movies) {
-        if (movies != null) {
-            fetchFinishedListener.onFetchFinished(movies);
+    protected void onPostExecute(List<Trailer> trailers) {
+        if (trailers != null) {
+            fetchFinishedListener.onFetchFinished(trailers);
         }
     }
 }

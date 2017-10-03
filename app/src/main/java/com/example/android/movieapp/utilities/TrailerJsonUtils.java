@@ -33,7 +33,7 @@ public class TrailerJsonUtils {
 
             String youtubeLink = BASE_YOUTUBE_URL + trailerJson.getString(RESULT_KEY);
 
-            trailerModel.setId(RESULT_ID);
+            trailerModel.setId(trailerJson.getString(RESULT_ID));
             trailerModel.setYoutubeLink(youtubeLink);
 
             parsedTrailersData.add(trailerModel);

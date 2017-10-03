@@ -1,5 +1,9 @@
 package com.example.android.moviesapp;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntry;
 import com.example.android.movieapp.model.Movie;
+import com.example.android.movieapp.model.Review;
 import com.example.android.movieapp.model.Trailer;
 import com.example.android.moviesapp.adapter.MovieTrailerListAdapter;
 
@@ -19,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MovieDetailActivity extends AppCompatActivity implements MovieTrailerListAdapter.ListItemClickListener {
     @BindView(R.id.tv_movie_title)
@@ -35,9 +43,11 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     @BindView(R.id.rvMovieTrailers)
     RecyclerView rvMovieTrailers;
 
-    private Movie movie;
+    private Movie mMovie;
     private ArrayList<Trailer> trailerList;
     private MovieTrailerListAdapter mAdapter;
+
+    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +56,21 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
         setupActionBar();
         ButterKnife.bind(this);
 
-        movie = getIntent().getParcelableExtra("movie");
+        mMovie = getIntent().getParcelableExtra("movie");
 
         setMovieDetail();
         setMovieTrailerViews();
         fetchMovieTrailers();
+        fetchMovieReviews();
     }
 
     private void setMovieDetail() {
-
-        String voteAverage = getString(R.string.vote_average, movie.getVoteAverage());
-        movieTitleTextView.setText(movie.getTitle());
-        Glide.with(this).load(movie.getPosterURL()).into(moviePosterImageView);
-        releaseDateTextView.setText(movie.getReleaseDate());
+        String voteAverage = getString(R.string.vote_average, mMovie.getVoteAverage());
+        movieTitleTextView.setText(mMovie.getTitle());
+        Glide.with(this).load(mMovie.getPosterURL()).into(moviePosterImageView);
+        releaseDateTextView.setText(mMovie.getReleaseDate());
         voteAverageTextView.setText(voteAverage);
-        plotSynopsisTextView.setText(movie.getOverview());
+        plotSynopsisTextView.setText(mMovie.getOverview());
     }
 
     private void setMovieTrailerViews() {
@@ -82,7 +92,22 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
         };
 
         FetchTrailersTask fetchTrailersTask = new FetchTrailersTask(listener);
-        fetchTrailersTask.execute(movie.getId());
+        fetchTrailersTask.execute(mMovie.getId());
+    }
+
+    private void fetchMovieReviews(){
+        FetchReviewsTask.Listener listener = new FetchReviewsTask.Listener() {
+
+            @Override
+            public void onFetchFinished(List<Review> movies) {
+//                trailerList.clear();
+//                trailerList.addAll(movies);
+//                mAdapter.notifyDataSetChanged();
+            }
+        };
+
+        FetchReviewsTask fetchReviewsTask = new FetchReviewsTask(listener);
+        fetchReviewsTask.execute(mMovie.getId());
     }
 
     private void setupActionBar() {
@@ -93,6 +118,35 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setTitle(getString(R.string.movie_detail));
         }
+    }
+
+    @OnClick(R.id.button_mark_as_favorite)
+    public void markAsFavorite(){
+
+        ContentValues favoriteMovieValues = new ContentValues();
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_ID,
+                mMovie.getId());
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_TITLE,
+                mMovie.getTitle());
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_POSTER_URL,
+                mMovie.getPosterURL());
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE,
+                mMovie.getVoteAverage());
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE,
+                mMovie.getReleaseDate());
+        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS,
+                mMovie.getOverview());
+
+       Uri uri = getContentResolver().insert(FavoriteMovieEntry.CONTENT_URI, favoriteMovieValues);
+
+        if(uri != null){
+            Toast.makeText(getBaseContext(),uri.toString(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @OnClick(R.id.button_remove_from_favorite)
+    public void removeFromFavorite(){
+
     }
 
     @Override
@@ -108,6 +162,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
+        String youtubeLink = trailerList.get(clickedItemIndex).getYoutubeLink();
+        Uri youtubeLinkUri = Uri.parse(youtubeLink);
 
+        Intent intent = new Intent(Intent.ACTION_VIEW, youtubeLinkUri);
+        startActivity(intent);
     }
 }

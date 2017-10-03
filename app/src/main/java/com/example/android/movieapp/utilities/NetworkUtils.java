@@ -17,6 +17,7 @@ public class NetworkUtils {
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
 
     private static final String PATH_VIDEOS = "videos";
+    private static final String PATH_REVIEWS = "reviews";
 
     public static final String MODE_POPULAR = "popular";
     public static final String MODE_TOP_RATED = "top_rated";
@@ -53,6 +54,23 @@ public class NetworkUtils {
             URL trailerVideosQueryUrl = new URL(trailerUri.toString());
             Log.v(TAG, "URL: " + trailerVideosQueryUrl);
             return trailerVideosQueryUrl;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static URL buildUrlReview(int id){
+        Uri reviewUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(Integer.toString(id))
+                .appendPath(PATH_REVIEWS)
+                .appendQueryParameter(API_KEY_PARAM,API_KEY)
+                .build();
+
+        try {
+            URL reviewsQueryUrl = new URL(reviewUri.toString());
+            Log.v(TAG, "URL: " + reviewsQueryUrl);
+            return reviewsQueryUrl;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
