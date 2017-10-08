@@ -7,16 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntry;
@@ -41,6 +41,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     TextView releaseDateTextView;
     @BindView(R.id.tv_vote_average)
     TextView voteAverageTextView;
+    @BindView(R.id.button_mark_as_favorite)
+    Button mButtonMarkAsFavorite;
+    @BindView(R.id.button_remove_from_favorite)
+    Button mButtonRemoveFromFavorites;
     @BindView(R.id.tv_plot_synopsis)
     TextView plotSynopsisTextView;
 
@@ -99,7 +103,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
         fetchTrailersTask.execute(mMovie.getId());
     }
 
-    private void fetchMovieReviews(){
+    private void fetchMovieReviews() {
         FetchReviewsTask.Listener listener = new FetchReviewsTask.Listener() {
 
             @Override
@@ -125,17 +129,13 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     }
 
     @OnClick(R.id.button_mark_as_favorite)
-    public void markAsFavorite(){
-
-        Log.d("LONGG", "ssaddasdsadsasddasad");
+    public void markAsFavorite() {
 
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
-                Log.d("LONGG", "out out");
-                if(!isFavorite()) {
-                    Log.d("LONGG", "inin");
+                if (!isFavorite()) {
                     ContentValues favoriteMovieValues = new ContentValues();
                     favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_ID,
                             mMovie.getId());
@@ -154,34 +154,80 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
                 }
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                updateFavoriteButton();
+            }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @OnClick(R.id.button_remove_from_favorite)
-    public void removeFromFavorite(){
+    public void removeFromFavorite() {
+        new AsyncTask<Void, Void, Void>() {
 
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (isFavorite()) {
+
+                    String movieId = Integer.toString(mMovie.getId());
+                    Uri uri = FavoriteMovieEntry.CONTENT_URI;
+                    uri = uri.buildUpon().appendPath(movieId).build();
+
+                    getContentResolver().delete(uri, null, null);
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                updateFavoriteButton();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private boolean isFavorite(){
-        Looper.prepare();
-        String movieId = Integer.toString(mMovie.getId());
-        Uri uri = FavoriteMovieEntry.CONTENT_URI;
-        uri = uri.buildUpon().appendPath(movieId).build();
+    private void updateFavoriteButton() {
+        new AsyncTask<Void, Void, Boolean>() {
 
-        Cursor movieCursor = getContentResolver().query(uri,null, null,null,null);
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return isFavorite();
+            }
 
-//        Cursor movieCursor = getContentResolver().query(
-//                FavoriteMovieEntry.CONTENT_URI,
-//                new String[]{FavoriteMovieEntry.COLUMN_MOVIE_ID},
-//                FavoriteMovieEntry.COLUMN_MOVIE_ID + " = " + mMovie.getId(),
-//                null,
-//                null);
+            @Override
+            protected void onPostExecute(Boolean isFavorite) {
+                if (isFavorite) {
+                    mButtonRemoveFromFavorites.setVisibility(View.VISIBLE);
+                    mButtonMarkAsFavorite.setVisibility(View.GONE);
+                } else {
+                    mButtonMarkAsFavorite.setVisibility(View.VISIBLE);
+                    mButtonRemoveFromFavorites.setVisibility(View.GONE);
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private boolean isFavorite() {
+//        String movieId = Integer.toString(mMovie.getId());
+//        Uri uri = FavoriteMovieEntry.CONTENT_URI;
+//        uri = uri.buildUpon().appendPath(movieId).build();
+//
+//        Cursor movieCursor = getContentResolver().query(uri,null, null,null,null);
+
+        Cursor movieCursor = getContentResolver().query(
+                FavoriteMovieEntry.CONTENT_URI,
+                new String[]{FavoriteMovieEntry.COLUMN_MOVIE_ID},
+                FavoriteMovieEntry.COLUMN_MOVIE_ID + " = " + mMovie.getId(),
+                null,
+                null);
 
         if (movieCursor != null && movieCursor.moveToFirst()) {
             movieCursor.close();
+            Log.d("LONGG", "Do thiss");
             return true;
         } else {
-            Toast.makeText(this, "Impossible", Toast.LENGTH_LONG).show();
+            Log.d("LONGG", "Do this too????");
             return false;
         }
     }
