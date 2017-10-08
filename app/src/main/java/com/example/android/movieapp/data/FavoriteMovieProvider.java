@@ -34,14 +34,51 @@ public class FavoriteMovieProvider extends ContentProvider {
         Context context = getContext();
         mFavoriteMovieDbHelper = new FavoriteMovieDbHelper(context);
 
-
         return true;
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+        final SQLiteDatabase db = mFavoriteMovieDbHelper.getReadableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        Cursor cursor;
+
+        switch (match){
+            case FAVORITE_MOVIES:
+                cursor = db.query(TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+
+            case FAVORITE_MOVIE_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+
+                String mSelection = "_id=?";
+                String[] mSelectionArgs = new String[]{id};
+
+                cursor = db.query(TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        cursor.setNotificationUri(getContext().getContentResolver(),uri);
+        return cursor;
     }
 
     @Nullable

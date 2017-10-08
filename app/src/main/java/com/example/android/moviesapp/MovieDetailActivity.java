@@ -2,13 +2,17 @@ package com.example.android.moviesapp;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -123,30 +127,63 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     @OnClick(R.id.button_mark_as_favorite)
     public void markAsFavorite(){
 
-        ContentValues favoriteMovieValues = new ContentValues();
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_ID,
-                mMovie.getId());
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_TITLE,
-                mMovie.getTitle());
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_POSTER_URL,
-                mMovie.getPosterURL());
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE,
-                mMovie.getVoteAverage());
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE,
-                mMovie.getReleaseDate());
-        favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS,
-                mMovie.getOverview());
+        Log.d("LONGG", "ssaddasdsadsasddasad");
 
-       Uri uri = getContentResolver().insert(FavoriteMovieEntry.CONTENT_URI, favoriteMovieValues);
+        new AsyncTask<Void, Void, Void>() {
 
-        if(uri != null){
-            Toast.makeText(getBaseContext(),uri.toString(),Toast.LENGTH_LONG).show();
-        }
+            @Override
+            protected Void doInBackground(Void... params) {
+                Log.d("LONGG", "out out");
+                if(!isFavorite()) {
+                    Log.d("LONGG", "inin");
+                    ContentValues favoriteMovieValues = new ContentValues();
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_ID,
+                            mMovie.getId());
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_TITLE,
+                            mMovie.getTitle());
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_POSTER_URL,
+                            mMovie.getPosterURL());
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE,
+                            mMovie.getVoteAverage());
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE,
+                            mMovie.getReleaseDate());
+                    favoriteMovieValues.put(FavoriteMovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS,
+                            mMovie.getOverview());
+
+                    getContentResolver().insert(FavoriteMovieEntry.CONTENT_URI, favoriteMovieValues);
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @OnClick(R.id.button_remove_from_favorite)
     public void removeFromFavorite(){
 
+    }
+
+    private boolean isFavorite(){
+        Looper.prepare();
+        String movieId = Integer.toString(mMovie.getId());
+        Uri uri = FavoriteMovieEntry.CONTENT_URI;
+        uri = uri.buildUpon().appendPath(movieId).build();
+
+        Cursor movieCursor = getContentResolver().query(uri,null, null,null,null);
+
+//        Cursor movieCursor = getContentResolver().query(
+//                FavoriteMovieEntry.CONTENT_URI,
+//                new String[]{FavoriteMovieEntry.COLUMN_MOVIE_ID},
+//                FavoriteMovieEntry.COLUMN_MOVIE_ID + " = " + mMovie.getId(),
+//                null,
+//                null);
+
+        if (movieCursor != null && movieCursor.moveToFirst()) {
+            movieCursor.close();
+            return true;
+        } else {
+            Toast.makeText(this, "Impossible", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     @Override
