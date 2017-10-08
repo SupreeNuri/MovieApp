@@ -17,6 +17,7 @@ public class TrailerJsonUtils {
 
         final String RESULT_ID = "id";
         final String RESULT_KEY = "key";
+        final String RESULT_NAME = "name";
         final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
         List<Trailer> parsedTrailersData;
@@ -35,6 +36,7 @@ public class TrailerJsonUtils {
 
             trailerModel.setId(trailerJson.getString(RESULT_ID));
             trailerModel.setYoutubeLink(youtubeLink);
+            trailerModel.setTrailerName(trailerJson.getString(RESULT_NAME));
 
             parsedTrailersData.add(trailerModel);
         }

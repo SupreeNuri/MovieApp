@@ -1,6 +1,5 @@
 package com.example.android.moviesapp.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import com.example.android.moviesapp.R;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerListAdapter.MovieAdapterViewHolder> {
 
@@ -37,7 +37,8 @@ public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerLi
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        Context context = holder.mView.getContext();
+        String trailerName = mTrailers.get(position).getTrailerName();
+        holder.tvTrailer.setText(trailerName);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerLi
 
         public MovieAdapterViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
             mView = view;
         }

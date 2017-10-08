@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -224,10 +223,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
         if (movieCursor != null && movieCursor.moveToFirst()) {
             movieCursor.close();
-            Log.d("LONGG", "Do thiss");
             return true;
         } else {
-            Log.d("LONGG", "Do this too????");
             return false;
         }
     }
