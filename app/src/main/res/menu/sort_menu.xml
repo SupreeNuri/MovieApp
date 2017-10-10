@@ -11,6 +11,10 @@
             android:id="@+id/top_rated"
             android:title="@string/sort_by_top_rated"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/favorites"
+            android:title="@string/favorites"
+            app:showAsAction="never" />
     </group>
 
 </menu>

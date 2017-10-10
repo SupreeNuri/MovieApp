@@ -1,6 +1,7 @@
 package com.example.android.moviesapp.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntry;
 import com.example.android.movieapp.model.Movie;
 import com.example.android.moviesapp.R;
 
@@ -65,5 +67,29 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             int clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
         }
+    }
+
+    public void addCursor(Cursor cursor) {
+        mMovies.clear();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(FavoriteMovieEntry.INDEX_MOVIE_ID);
+                String title = cursor.getString(FavoriteMovieEntry.INDEX_MOVIE_TITLE);
+                String posterPath = cursor.getString(FavoriteMovieEntry.INDEX_MOVIE_POSTER_URL);
+                String voteAverage = cursor.getString(FavoriteMovieEntry.INDEX_MOVIE_VOTE_AVERAGE);
+                String releaseDate = cursor.getString(FavoriteMovieEntry.INDEX_MOVIE_RELEASE_DATE);
+                String plotSynopsis = cursor.getString(FavoriteMovieEntry.INDEX_MOVIE_PLOT_SYNOPSIS);
+
+                Movie movie = new Movie();
+                movie.setId(id);
+                movie.setTitle(title);
+                movie.setPosterURL(posterPath);
+                movie.setVoteAverage(voteAverage);
+                movie.setReleaseDate(releaseDate);
+                movie.setOverview(plotSynopsis);
+                mMovies.add(movie);
+            } while (cursor.moveToNext());
+        }
+        notifyDataSetChanged();
     }
 }

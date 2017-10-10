@@ -18,5 +18,21 @@ public class FavoriteMovieContract {
         public static final String COLUMN_MOVIE_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_MOVIE_RELEASE_DATE = "release_date";
         public static final String COLUMN_MOVIE_PLOT_SYNOPSIS = "plot_synopsis";
+
+        public static final int INDEX_MOVIE_ID = 0;
+        public static final int INDEX_MOVIE_TITLE = 1;
+        public static final int INDEX_MOVIE_POSTER_URL = 2;
+        public static final int INDEX_MOVIE_VOTE_AVERAGE = 3;
+        public static final int INDEX_MOVIE_RELEASE_DATE = 4;
+        public static final int INDEX_MOVIE_PLOT_SYNOPSIS = 5;
+
+        public static final String[] MOVIE_COLUMNS = {
+                COLUMN_MOVIE_ID,
+                COLUMN_MOVIE_TITLE,
+                COLUMN_MOVIE_POSTER_URL,
+                COLUMN_MOVIE_VOTE_AVERAGE,
+                COLUMN_MOVIE_RELEASE_DATE,
+                COLUMN_MOVIE_PLOT_SYNOPSIS
+        };
     }
 }

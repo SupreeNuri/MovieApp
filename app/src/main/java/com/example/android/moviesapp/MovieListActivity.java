@@ -1,7 +1,11 @@
 package com.example.android.moviesapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntry;
 import com.example.android.movieapp.model.Movie;
 import com.example.android.movieapp.utilities.NetworkUtils;
 import com.example.android.moviesapp.adapter.MovieListAdapter;
@@ -16,9 +21,10 @@ import com.example.android.moviesapp.adapter.MovieListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieListActivity extends AppCompatActivity implements MovieListAdapter.ListItemClickListener {
+public class MovieListActivity extends AppCompatActivity implements MovieListAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final String EXTRA_KEY = "movie";
+    private static final int FAVORITE_MOVIES_LOADER = 0;
+    private static final String EXTRA_KEY = "movie";
 
     private MovieListAdapter mAdapter;
     private ArrayList<Movie> movieList;
@@ -82,15 +88,18 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
         switch (menuId) {
             case R.id.most_popular:
                 NetworkUtils.sortPath = NetworkUtils.MODE_POPULAR;
+                fetchMovies();
                 break;
             case R.id.top_rated:
                 NetworkUtils.sortPath = NetworkUtils.MODE_TOP_RATED;
+                fetchMovies();
                 break;
+            case R.id.favorites:
+                getSupportLoaderManager().initLoader(FAVORITE_MOVIES_LOADER, null, this);
             default:
                 break;
         }
 
-        fetchMovies();
         return super.onOptionsItemSelected(item);
     }
 
@@ -100,4 +109,28 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
         intent.putExtra("movie", movieList.get(clickedItemIndex));
         startActivity(intent);
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //TODO Show loading here.
+
+        if(id == FAVORITE_MOVIES_LOADER){
+            return new CursorLoader(this,
+                    FavoriteMovieEntry.CONTENT_URI,
+                    FavoriteMovieEntry.MOVIE_COLUMNS,
+                    null,
+                    null,
+                    null);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mAdapter.addCursor(cursor);
+//        updateEmptyState();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {}
 }
