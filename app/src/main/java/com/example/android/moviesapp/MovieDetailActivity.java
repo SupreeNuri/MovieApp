@@ -22,6 +22,7 @@ import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntr
 import com.example.android.movieapp.model.Movie;
 import com.example.android.movieapp.model.Review;
 import com.example.android.movieapp.model.Trailer;
+import com.example.android.moviesapp.adapter.MovieReviewListAdapter;
 import com.example.android.moviesapp.adapter.MovieTrailerListAdapter;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MovieDetailActivity extends AppCompatActivity implements MovieTrailerListAdapter.ListItemClickListener {
+public class MovieDetailActivity extends AppCompatActivity implements MovieTrailerListAdapter.ListTrailerClickListener,
+        MovieReviewListAdapter.ListReviewClickListener {
     @BindView(R.id.tv_movie_title)
     TextView movieTitleTextView;
     @BindView(R.id.movie_poster)
@@ -50,9 +52,18 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     @BindView(R.id.rvMovieTrailers)
     RecyclerView rvMovieTrailers;
 
+    @BindView(R.id.rvMovieReviews)
+    RecyclerView rvMovieReviews;
+
+    public static final String EXTRA_TRAILERS = "EXTRA_TRAILERS";
+    public static final String EXTRA_REVIEWS = "EXTRA_REVIEWS";
+
     private Movie mMovie;
-    private ArrayList<Trailer> trailerList;
-    private MovieTrailerListAdapter mAdapter;
+    private ArrayList<Trailer> mTrailerList;
+    private MovieTrailerListAdapter mTrailerListAdapter;
+
+    private ArrayList<Review> mReviewList;
+    private MovieReviewListAdapter mReviewListAdapter;
 
     private SQLiteDatabase mDb;
 
@@ -67,9 +78,40 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
         setMovieDetail();
         setMovieTrailerViews();
-        fetchMovieTrailers();
-        fetchMovieReviews();
+        setMovieReviews();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TRAILERS)) {
+            List<Trailer> trailers = savedInstanceState.getParcelableArrayList(EXTRA_TRAILERS);
+            mTrailerList.clear();
+            mTrailerList.addAll(trailers);
+            mTrailerListAdapter.notifyDataSetChanged();
+        } else {
+            fetchMovieTrailers();
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_REVIEWS)) {
+            List<Review> reviews = savedInstanceState.getParcelableArrayList(EXTRA_REVIEWS);
+            mReviewList.clear();
+            mReviewList.addAll(reviews);
+            mReviewListAdapter.notifyDataSetChanged();
+        } else {
+            fetchMovieReviews();
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mTrailerList != null && !mTrailerList.isEmpty()) {
+            outState.putParcelableArrayList(EXTRA_TRAILERS, mTrailerList);
+        }
+
+        if (mReviewList != null && !mReviewList.isEmpty()) {
+            outState.putParcelableArrayList(EXTRA_REVIEWS, mReviewList);
+        }
+    }
+
 
     private void setMovieDetail() {
         String voteAverage = getString(R.string.vote_average, mMovie.getVoteAverage());
@@ -81,10 +123,17 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     }
 
     private void setMovieTrailerViews() {
-        trailerList = new ArrayList<>();
+        mTrailerList = new ArrayList<>();
         rvMovieTrailers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new MovieTrailerListAdapter(trailerList, this);
-        rvMovieTrailers.setAdapter(mAdapter);
+        mTrailerListAdapter = new MovieTrailerListAdapter(mTrailerList, this);
+        rvMovieTrailers.setAdapter(mTrailerListAdapter);
+    }
+
+    private void setMovieReviews() {
+        mReviewList = new ArrayList<>();
+        rvMovieReviews.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mReviewListAdapter = new MovieReviewListAdapter(mReviewList,this);
+        rvMovieReviews.setAdapter(mReviewListAdapter);
     }
 
     private void fetchMovieTrailers() {
@@ -92,9 +141,9 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
             @Override
             public void onFetchFinished(List<Trailer> movies) {
-                trailerList.clear();
-                trailerList.addAll(movies);
-                mAdapter.notifyDataSetChanged();
+                mTrailerList.clear();
+                mTrailerList.addAll(movies);
+                mTrailerListAdapter.notifyDataSetChanged();
             }
         };
 
@@ -106,10 +155,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
         FetchReviewsTask.Listener listener = new FetchReviewsTask.Listener() {
 
             @Override
-            public void onFetchFinished(List<Review> movies) {
-//                trailerList.clear();
-//                trailerList.addAll(movies);
-//                mAdapter.notifyDataSetChanged();
+            public void onFetchFinished(List<Review> reviews) {
+                mReviewList.clear();
+                mReviewList.addAll(reviews);
+                mReviewListAdapter.notifyDataSetChanged();
             }
         };
 
@@ -241,11 +290,20 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex) {
-        String youtubeLink = trailerList.get(clickedItemIndex).getYoutubeLink();
+    public void onTrailerItemClick(int clickedItemIndex) {
+        String youtubeLink = mTrailerList.get(clickedItemIndex).getYoutubeLink();
         Uri youtubeLinkUri = Uri.parse(youtubeLink);
 
         Intent intent = new Intent(Intent.ACTION_VIEW, youtubeLinkUri);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onReviewItemClick(int clickedItemIndex) {
+        String fullReviewLink = mReviewList.get(clickedItemIndex).getUrl();
+        Uri fullReviewLinkUri = Uri.parse(fullReviewLink);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, fullReviewLinkUri);
         startActivity(intent);
     }
 }

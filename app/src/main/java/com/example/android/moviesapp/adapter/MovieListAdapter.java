@@ -33,9 +33,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public MovieAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.item_movie, viewGroup, false);
-//        Context context = viewGroup.getContext();
-//        int columnNumber = context.getResources().getInteger(R.integer.number_of_columns);
-//        view.getLayoutParams().height = (int) (viewGroup.getWidth() / columnNumber * Movie.ASPECT_RATIO);
 
         return new MovieAdapterViewHolder(view);
     }

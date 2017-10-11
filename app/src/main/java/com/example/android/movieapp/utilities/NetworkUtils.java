@@ -21,7 +21,6 @@ public class NetworkUtils {
 
     public static final String MODE_POPULAR = "popular";
     public static final String MODE_TOP_RATED = "top_rated";
-    public static final String MODE_FAVORITES = "favorites";
 
     public static String sortPath = MODE_POPULAR;
 

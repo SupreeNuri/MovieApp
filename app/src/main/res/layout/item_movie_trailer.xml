@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/list_item_color"
+    android:layout_marginTop="@dimen/global_margin"
     android:gravity="center_vertical">
 
     <ImageView

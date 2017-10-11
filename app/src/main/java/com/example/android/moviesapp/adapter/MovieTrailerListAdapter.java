@@ -17,13 +17,13 @@ import butterknife.ButterKnife;
 public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerListAdapter.MovieAdapterViewHolder> {
 
     private final List<Trailer> mTrailers;
-    final private ListItemClickListener mOnClickListener;
+    final private ListTrailerClickListener mOnClickListener;
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+    public interface ListTrailerClickListener {
+        void onTrailerItemClick(int clickedItemIndex);
     }
 
-    public MovieTrailerListAdapter(List<Trailer> trailers, ListItemClickListener listener) {
+    public MovieTrailerListAdapter(List<Trailer> trailers, ListTrailerClickListener listener) {
         mTrailers = trailers;
         mOnClickListener = listener;
     }
@@ -61,7 +61,7 @@ public class MovieTrailerListAdapter extends RecyclerView.Adapter<MovieTrailerLi
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(clickedPosition);
+            mOnClickListener.onTrailerItemClick(clickedPosition);
         }
     }
 }

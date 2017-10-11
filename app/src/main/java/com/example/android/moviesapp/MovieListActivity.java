@@ -42,7 +42,6 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
         mAdapter = new MovieListAdapter(movieList, this);
         mRecyclerView.setAdapter(mAdapter);
 
-
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(EXTRA_KEY)) {
                 List<Movie> movies = savedInstanceState.getParcelableArrayList(EXTRA_KEY);
@@ -114,7 +113,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         //TODO Show loading here.
 
-        if(id == FAVORITE_MOVIES_LOADER){
+        if(id == FAVORITE_MOVIES_LOADER) {
             return new CursorLoader(this,
                     FavoriteMovieEntry.CONTENT_URI,
                     FavoriteMovieEntry.MOVIE_COLUMNS,

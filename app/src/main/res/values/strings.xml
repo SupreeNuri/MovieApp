@@ -10,6 +10,7 @@
     <string name="movie_detail">MovieDetail</string>
     <string name="vote_average">%1$s/10</string>
     <string name="trailers">Trailers:</string>
+    <string name="reviews">Reviews</string>
     <string name="mark_as_favorite">Mark as favorite</string>
     <string name="remove_from_favorite">Remove from favorite</string>
 </resources>

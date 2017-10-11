@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_color"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/global_margin"
+    android:paddingLeft="@dimen/global_margin_2x"
+    android:paddingRight="@dimen/global_margin_2x"
+    android:paddingTop="@dimen/global_margin">
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Screen-Space" />
+
+    <TextView
+        android:id="@+id/tv_review_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_small"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        tools:text="**This movie went right to the trash.** I cannot believe what Warner Bros has done for this piece of trash.\r\nYes, there have been rave reviews for this movie, but we recommend that you do not mind them, as we should not be teaching children on how to safely get sodomized by a monster.\r\n\r\nThese directors' brains are also in the trash. Now let's put the MPAA R rating right into the trash where it is supposed to go. Final warning: **Don't let your kids watch trash.**" />
+
+</LinearLayout>
