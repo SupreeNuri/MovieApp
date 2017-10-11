@@ -16,7 +16,6 @@ import com.example.android.moviesapp.R;
 import java.util.List;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieAdapterViewHolder> {
-
     private final List<Movie> mMovies;
     final private ListItemClickListener mOnClickListener;
 
@@ -30,9 +29,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     @Override
-    public MovieAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public MovieAdapterViewHolder onCreateViewHolder(final ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.item_movie, viewGroup, false);
+        final View view = inflater.inflate(R.layout.item_movie, viewGroup, false);
 
         return new MovieAdapterViewHolder(view);
     }

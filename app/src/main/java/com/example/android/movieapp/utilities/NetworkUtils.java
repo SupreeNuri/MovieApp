@@ -11,16 +11,14 @@ import java.net.URL;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
+import static com.example.android.moviesapp.constants.Constants.MODE_POPULAR;
 
 public class NetworkUtils {
-    private static final String API_KEY = "";
+    private static final String API_KEY = "Your key here";
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
 
     private static final String PATH_VIDEOS = "videos";
     private static final String PATH_REVIEWS = "reviews";
-
-    public static final String MODE_POPULAR = "popular";
-    public static final String MODE_TOP_RATED = "top_rated";
 
     public static String sortPath = MODE_POPULAR;
 

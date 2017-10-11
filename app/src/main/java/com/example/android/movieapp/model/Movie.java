@@ -6,8 +6,6 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-    public static final float ASPECT_RATIO = 1.5f;
-
     private int id;
     private String title;
     private String posterURL;

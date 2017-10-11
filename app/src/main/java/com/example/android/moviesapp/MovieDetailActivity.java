@@ -34,6 +34,7 @@ import butterknife.OnClick;
 
 public class MovieDetailActivity extends AppCompatActivity implements MovieTrailerListAdapter.ListTrailerClickListener,
         MovieReviewListAdapter.ListReviewClickListener {
+
     @BindView(R.id.tv_movie_title)
     TextView movieTitleTextView;
     @BindView(R.id.movie_poster)
@@ -79,6 +80,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
         setMovieDetail();
         setMovieTrailerViews();
         setMovieReviews();
+
+        updateFavoriteButton();
 
         if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_TRAILERS)) {
             List<Trailer> trailers = savedInstanceState.getParcelableArrayList(EXTRA_TRAILERS);
@@ -257,12 +260,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     }
 
     private boolean isFavorite() {
-//        String movieId = Integer.toString(mMovie.getId());
-//        Uri uri = FavoriteMovieEntry.CONTENT_URI;
-//        uri = uri.buildUpon().appendPath(movieId).build();
-//
-//        Cursor movieCursor = getContentResolver().query(uri,null, null,null,null);
-
         Cursor movieCursor = getContentResolver().query(
                 FavoriteMovieEntry.CONTENT_URI,
                 new String[]{FavoriteMovieEntry.COLUMN_MOVIE_ID},
