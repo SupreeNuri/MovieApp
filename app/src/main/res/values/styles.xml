@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="lightBlueButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/light_green_btn_selector</item>
+        <item name="android:paddingLeft">@dimen/global_margin</item>
+        <item name="android:paddingRight">@dimen/global_margin</item>
+        <item name="android:textColor">@color/light_green_text</item>
+    </style>
+
 </resources>

@@ -11,15 +11,15 @@ import java.net.URL;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
+import static com.example.android.moviesapp.constants.Constants.MODE_POPULAR;
 
 public class NetworkUtils {
     private static final String API_KEY = "Your key here";
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
 
     private static final String PATH_VIDEOS = "videos";
+    private static final String PATH_REVIEWS = "reviews";
 
-    public static final String MODE_POPULAR = "popular";
-    public static final String MODE_TOP_RATED = "top_rated";
     public static String sortPath = MODE_POPULAR;
 
     private final static String API_KEY_PARAM = "api_key";
@@ -42,9 +42,9 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildUrlTrailerVideos(String id){
+    public static URL buildUrlTrailer(int id){
         Uri trailerUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(id)
+                .appendPath(Integer.toString(id))
                 .appendPath(PATH_VIDEOS)
                 .appendQueryParameter(API_KEY_PARAM,API_KEY)
                 .build();
@@ -53,6 +53,23 @@ public class NetworkUtils {
             URL trailerVideosQueryUrl = new URL(trailerUri.toString());
             Log.v(TAG, "URL: " + trailerVideosQueryUrl);
             return trailerVideosQueryUrl;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static URL buildUrlReview(int id){
+        Uri reviewUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(Integer.toString(id))
+                .appendPath(PATH_REVIEWS)
+                .appendQueryParameter(API_KEY_PARAM,API_KEY)
+                .build();
+
+        try {
+            URL reviewsQueryUrl = new URL(reviewUri.toString());
+            Log.v(TAG, "URL: " + reviewsQueryUrl);
+            return reviewsQueryUrl;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

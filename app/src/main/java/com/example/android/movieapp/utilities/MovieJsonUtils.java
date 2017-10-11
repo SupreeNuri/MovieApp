@@ -23,6 +23,7 @@ public class MovieJsonUtils {
 
         final String MOVIE_RESULTS = "results";
 
+        final String RESULT_ID = "id";
         final String RESULT_TITLE = "title";
         final String RESULT_VOTE_AVERAGE = "vote_average";
         final String RESULT_POSTER_PATH = "poster_path";
@@ -44,6 +45,7 @@ public class MovieJsonUtils {
 
             JSONObject movieJson = moviesArray.getJSONObject(i);
 
+            movieModel.setId(movieJson.getInt(RESULT_ID));
             movieModel.setTitle(movieJson.getString(RESULT_TITLE));
             movieModel.setVoteAverage(movieJson.getString(RESULT_VOTE_AVERAGE));
 

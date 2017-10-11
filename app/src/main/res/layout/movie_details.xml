@@ -34,6 +34,19 @@
             android:textSize="@dimen/text_medium"
             tool:text="9.5/10" />
 
+        <Button
+            android:id="@+id/button_mark_as_favorite"
+            style="@style/lightBlueButton"
+            android:layout_marginTop="@dimen/global_margin_small"
+            android:text="@string/mark_as_favorite" />
+
+        <Button
+            android:id="@+id/button_remove_from_favorite"
+            style="@style/lightBlueButton"
+            android:layout_marginTop="@dimen/global_margin_small"
+            android:text="@string/remove_from_favorite"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <TextView
