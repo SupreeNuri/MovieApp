@@ -20,6 +20,7 @@ import com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMovieEntr
 import com.example.android.movieapp.model.Movie;
 import com.example.android.movieapp.utilities.NetworkUtils;
 import com.example.android.moviesapp.adapter.MovieListAdapter;
+import com.example.android.moviesapp.constants.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,11 +119,17 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
         int menuId = item.getItemId();
         switch (menuId) {
             case R.id.most_popular:
+                if (mSortBy.equals(Constants.MODE_FAVORITES)) {
+                    getSupportLoaderManager().destroyLoader(FAVORITE_MOVIES_LOADER);
+                }
                 mSortBy = MODE_POPULAR;
                 NetworkUtils.sortPath = MODE_POPULAR;
                 fetchMovies();
                 break;
             case R.id.top_rated:
+                if (mSortBy.equals(Constants.MODE_FAVORITES)) {
+                    getSupportLoaderManager().destroyLoader(FAVORITE_MOVIES_LOADER);
+                }
                 mSortBy = MODE_TOP_RATED;
                 NetworkUtils.sortPath = MODE_TOP_RATED;
                 fetchMovies();
