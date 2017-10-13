@@ -44,7 +44,7 @@ public class Trailer implements Parcelable {
     public Trailer() {
     }
 
-    protected Trailer(Parcel in) {
+    private Trailer(Parcel in) {
         this.id = in.readString();
         this.youtubeLink = in.readString();
         this.trailerName = in.readString();
