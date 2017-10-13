@@ -15,14 +15,14 @@ import static com.example.android.movieapp.data.FavoriteMovieContract.FavoriteMo
 
 public class FavoriteMovieProvider extends ContentProvider {
 
-    public static final int FAVORITE_MOVIES = 100;
-    public static final int FAVORITE_MOVIE_WITH_ID = 101;
+    private static final int FAVORITE_MOVIES = 100;
+    private static final int FAVORITE_MOVIE_WITH_ID = 101;
 
     private FavoriteMovieDbHelper mFavoriteMovieDbHelper;
 
-    public static final UriMatcher sUriMatcher = buildUriMatcher();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
 
-    public static UriMatcher buildUriMatcher(){
+    private static UriMatcher buildUriMatcher(){
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(FavoriteMovieContract.AUTHORITY, FavoriteMovieContract.PATH_FAVORITE_MOVIE, FAVORITE_MOVIES);
         uriMatcher.addURI(FavoriteMovieContract.AUTHORITY, FavoriteMovieContract.PATH_FAVORITE_MOVIE + "/#", FAVORITE_MOVIE_WITH_ID);

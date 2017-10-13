@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.example.android.movieapp.data.FavoriteMovieContract.*;
 
-public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
+class FavoriteMovieDbHelper extends SQLiteOpenHelper {
 
     private final static String DATABASE_NAME = "favorite_movies.db";
 
