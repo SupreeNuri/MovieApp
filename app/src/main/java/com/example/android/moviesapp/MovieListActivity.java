@@ -78,6 +78,10 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
         if (movieList != null && !movieList.isEmpty()) {
             outState.putParcelableArrayList(EXTRA_KEY, movieList);
         }
+
+        if (!mSortBy.equals(Constants.MODE_FAVORITES)) {
+            getSupportLoaderManager().destroyLoader(FAVORITE_MOVIES_LOADER);
+        }
     }
 
     private void fetchMovies() {
