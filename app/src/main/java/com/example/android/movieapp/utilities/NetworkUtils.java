@@ -14,7 +14,7 @@ import static android.content.ContentValues.TAG;
 import static com.example.android.moviesapp.constants.Constants.MODE_POPULAR;
 
 public class NetworkUtils {
-    private static final String API_KEY = "Your code here";
+    private static final String API_KEY = "Your key here";
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie/";
 
     private static final String PATH_VIDEOS = "videos";

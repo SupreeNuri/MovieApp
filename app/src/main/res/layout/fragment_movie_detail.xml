@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/global_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:paddingBottom="@dimen/global_margin_4x"
+            android:paddingLeft="@dimen/global_margin_2x"
+            android:paddingRight="@dimen/global_margin_2x"
+            android:paddingTop="@dimen/global_margin_4x"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_huge"
+            tool:text="Chappie" />
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/movie_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/global_margin"
+        android:background="@color/divider_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/global_margin"
+        android:layout_marginTop="@dimen/global_margin_2x"
+        android:text="@string/trailers"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_large" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMovieTrailers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/global_margin_2x"
+        android:layout_marginLeft="@dimen/global_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/global_margin"
+        android:text="@string/reviews"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_large" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMovieReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

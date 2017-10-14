@@ -151,7 +151,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListAda
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Intent intent = new Intent(this, MovieDetailActivity.class);
-        intent.putExtra("movie", movieList.get(clickedItemIndex));
+        intent.putExtra(MovieDetailFragment.ARG_MOVIE_DETAILS, movieList.get(clickedItemIndex));
         startActivity(intent);
     }
 
