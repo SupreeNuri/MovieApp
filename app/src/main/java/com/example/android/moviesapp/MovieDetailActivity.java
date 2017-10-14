@@ -3,7 +3,6 @@ package com.example.android.moviesapp;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,6 +56,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
     RecyclerView rvMovieReviews;
 
     public static final String EXTRA_TRAILERS = "EXTRA_TRAILERS";
+
     public static final String EXTRA_REVIEWS = "EXTRA_REVIEWS";
 
     private Movie mMovie;
@@ -65,8 +65,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
     private ArrayList<Review> mReviewList;
     private MovieReviewListAdapter mReviewListAdapter;
-
-    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +125,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieTrail
 
     private void setMovieTrailerViews() {
         mTrailerList = new ArrayList<>();
-        rvMovieTrailers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager llMangerTrailer = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvMovieTrailers.setLayoutManager(llMangerTrailer);
         mTrailerListAdapter = new MovieTrailerListAdapter(mTrailerList, this);
         rvMovieTrailers.setAdapter(mTrailerListAdapter);
     }
